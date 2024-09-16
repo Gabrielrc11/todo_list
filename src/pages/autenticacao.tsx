@@ -1,10 +1,14 @@
 import AuthInput from "@/components/auth/Authinput";
 import { useState } from "react";
-import LoginBackground from "../components/imgs/LoginBackground.jpg"
+import LoginBackground from "../../public/images/LoginBackground.jpg"
 import Image from "next/image";
 import { IconeAtencao } from "@/components/icons";
+import useAuth from "@/data/hook/useAuth";
 
 export default function Autenticacao() {
+
+    const { cadastrar, login, loginGoogle } = useAuth()
+
     const [erro, setErro] = useState(null)
     const [modo, setModo] = useState('')
     const [email, setEmail] = useState('')
@@ -15,11 +19,15 @@ export default function Autenticacao() {
         setTimeout(() => setErro(null), tempo * 1000)
     }
 
-    function submeter() {
-        if(modo === 'login') {
-            console.log('login')
-        } else {
-            console.log('cadastrar')
+    async function submeter() {
+        try{
+            if(modo === 'login') {
+                await login(email, senha)
+            } else {
+                await cadastrar(email, senha)
+            }
+        } catch(e) {
+            exibirErro(e?.message ?? "Erro inesperado")
         }
     }
 
@@ -55,7 +63,7 @@ export default function Autenticacao() {
 
                 <hr className="my-6 border-gray-300 w-full" />
 
-                <button onClick={submeter} className={`
+                <button onClick={loginGoogle} className={`
                     w-full bg-red-500 hover:bg-red-400
                     text-white rounded-lg px-4 py-3 
                 `}>
