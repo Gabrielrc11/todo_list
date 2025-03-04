@@ -1,6 +1,6 @@
 <h1 align="center">
     <a href="https://laravelcollective.com/tools/banner">
-        <img alt="Banner" title="#Banner" style="object-fit: cover;" src="./app.png"  />
+        <img alt="Banner" title="#Banner" style="object-fit: cover;" src="app.png"  />
     </a>
 </h1>
 
