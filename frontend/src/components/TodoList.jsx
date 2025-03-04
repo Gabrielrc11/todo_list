@@ -10,11 +10,15 @@ import {
   CircularProgress,
   Alert,
   useTheme,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import { TodoService } from '../services/api';
 import TodoItem from './TodoItem';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-const TodoList = () => {
+const TodoList = ({ onToggleTheme, isDarkMode }) => {
   const theme = useTheme();
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
@@ -116,7 +120,8 @@ const TodoList = () => {
         justifyContent: 'center',
         py: 4,
         px: 2,
-        bgcolor: theme.palette.grey[100],
+        bgcolor: theme.palette.background.default,
+        transition: 'background-color 0.3s',
       }}
     >
       <Container 
@@ -138,19 +143,39 @@ const TodoList = () => {
             width: '100%',
             maxWidth: '600px',
             mx: 'auto',
+            position: 'relative',
           }}
         >
           <Paper 
             elevation={0}
             sx={{ 
-              p: 1, 
+              p: 4, 
               textAlign: 'center',
               borderRadius: 2,
               bgcolor: theme.palette.primary.main,
               color: 'white',
               width: '100%',
+              position: 'relative',
             }}
           >
+            <Tooltip title={`Mudar para tema ${isDarkMode ? 'claro' : 'escuro'}`}>
+              <IconButton
+                onClick={onToggleTheme}
+                sx={{
+                  position: 'absolute',
+                  right: 16,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: 'white',
+                  bgcolor: 'rgba(255, 255, 255, 0.1)',
+                  '&:hover': {
+                    bgcolor: 'rgba(255, 255, 255, 0.2)',
+                  },
+                }}
+              >
+                {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
+            </Tooltip>
             <Typography 
               variant="h5" 
               component="h1" 
