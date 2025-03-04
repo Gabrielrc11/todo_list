@@ -9,11 +9,13 @@ import {
   Button,
   CircularProgress,
   Alert,
+  useTheme,
 } from '@mui/material';
 import { TodoService } from '../services/api';
 import TodoItem from './TodoItem';
 
 const TodoList = () => {
+  const theme = useTheme();
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
   const [newDescription, setNewDescription] = useState('');
@@ -105,76 +107,176 @@ const TodoList = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom align="center">
-          Lista de Tarefas
-        </Typography>
+    <Box
+      sx={{
+        width: '100%',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        py: 4,
+        px: 2,
+        bgcolor: theme.palette.grey[100],
+      }}
+    >
+      <Container 
+        maxWidth="md" 
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <Box 
+          sx={{ 
+            display: 'flex', 
+            flexDirection: 'column',
+            gap: 3,
+            width: '100%',
+            maxWidth: '600px',
+            mx: 'auto',
+          }}
+        >
+          <Paper 
+            elevation={0}
+            sx={{ 
+              p: 1, 
+              textAlign: 'center',
+              borderRadius: 2,
+              bgcolor: theme.palette.primary.main,
+              color: 'white',
+              width: '100%',
+            }}
+          >
+            <Typography 
+              variant="h5" 
+              component="h1" 
+              sx={{ 
+                fontWeight: 'bold',
+                letterSpacing: 1,
+              }}
+            >
+              Lista de Tarefas
+            </Typography>
+          </Paper>
 
-        <Paper sx={{ p: 2, mb: 2 }}>
-          <form onSubmit={handleAddTodo}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <TextField
-                fullWidth
-                value={newTodo}
-                onChange={(e) => setNewTodo(e.target.value)}
-                placeholder="Título da tarefa"
-                variant="outlined"
-                size="small"
-              />
-              <TextField
-                fullWidth
-                value={newDescription}
-                onChange={(e) => setNewDescription(e.target.value)}
-                placeholder="Descrição da tarefa"
-                variant="outlined"
-                size="small"
-                multiline
-                rows={3}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={!newTodo.trim()}
-              >
-                Adicionar
-              </Button>
-            </Box>
-          </form>
-        </Paper>
-
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-
-        <Paper>
-          {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
-              <CircularProgress />
-            </Box>
-          ) : (
-            <List>
-              {todos.map((todo) => (
-                <TodoItem
-                  key={todo.id}
-                  todo={todo}
-                  onToggle={handleToggleTodo}
-                  onDelete={handleDeleteTodo}
-                  onEdit={handleEditTodo}
+          <Paper 
+            elevation={2} 
+            sx={{ 
+              p: 3,
+              borderRadius: 2,
+              width: '100%',
+            }}
+          >
+            <form onSubmit={handleAddTodo}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <TextField
+                  fullWidth
+                  value={newTodo}
+                  onChange={(e) => setNewTodo(e.target.value)}
+                  placeholder="Título da tarefa"
+                  variant="outlined"
+                  size="small"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                    },
+                  }}
                 />
-              ))}
-              {todos.length === 0 && (
-                <Typography sx={{ p: 2, textAlign: 'center' }}>
-                  Nenhuma tarefa encontrada
-                </Typography>
-              )}
-            </List>
+                <TextField
+                  fullWidth
+                  value={newDescription}
+                  onChange={(e) => setNewDescription(e.target.value)}
+                  placeholder="Descrição da tarefa"
+                  variant="outlined"
+                  size="small"
+                  multiline
+                  rows={3}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                    },
+                  }}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  disabled={!newTodo.trim()}
+                  fullWidth
+                  sx={{
+                    py: 1.5,
+                    borderRadius: 2,
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    boxShadow: 2,
+                  }}
+                >
+                  Adicionar Tarefa
+                </Button>
+              </Box>
+            </form>
+          </Paper>
+
+          {error && (
+            <Alert 
+              severity="error" 
+              sx={{ 
+                borderRadius: 2,
+                width: '100%',
+              }}
+            >
+              {error}
+            </Alert>
           )}
-        </Paper>
-      </Box>
-    </Container>
+
+          <Paper 
+            elevation={2}
+            sx={{ 
+              borderRadius: 2,
+              overflow: 'hidden',
+              width: '100%',
+            }}
+          >
+            {loading ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <List sx={{ p: 0, width: '100%' }}>
+                {todos.map((todo) => (
+                  <TodoItem
+                    key={todo.id}
+                    todo={todo}
+                    onToggle={handleToggleTodo}
+                    onDelete={handleDeleteTodo}
+                    onEdit={handleEditTodo}
+                  />
+                ))}
+                {todos.length === 0 && (
+                  <Box 
+                    sx={{ 
+                      p: 4, 
+                      textAlign: 'center',
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    <Typography variant="body1">
+                      Nenhuma tarefa encontrada
+                    </Typography>
+                    <Typography variant="body2" sx={{ mt: 1 }}>
+                      Adicione uma nova tarefa usando o formulário acima
+                    </Typography>
+                  </Box>
+                )}
+              </List>
+            )}
+          </Paper>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
