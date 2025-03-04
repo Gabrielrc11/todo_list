@@ -1,0 +1,259 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Lista de Tarefas",
+        "description": "API para gerenciamento de tarefas (todos)",
+        "contact": {
+            "email": "admin@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/todos": {
+            "get": {
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Lista todas as tarefas",
+                "operationId": "27162185e236f2c2c048b347c7b29c98",
+                "responses": {
+                    "200": {
+                        "description": "Lista de tarefas recuperada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Todo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Cria uma nova tarefa",
+                "operationId": "734ae58a227fb50804cdb59459c9a035",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "description": "Título da tarefa",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descrição da tarefa",
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "completed": {
+                                        "description": "Status de conclusão da tarefa",
+                                        "type": "boolean",
+                                        "default": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tarefa criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todo"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            }
+        },
+        "/todos/{id}": {
+            "get": {
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Obtém uma tarefa específica",
+                "operationId": "0d225d8cda82059b6e73aff19019d898",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da tarefa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tarefa encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tarefa não encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Atualiza uma tarefa existente",
+                "operationId": "d08e8ce057aa65d39ce914ff856ebd81",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da tarefa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "Título da tarefa",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descrição da tarefa",
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "completed": {
+                                        "description": "Status de conclusão da tarefa",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tarefa atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tarefa não encontrada"
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tarefas"
+                ],
+                "summary": "Remove uma tarefa",
+                "operationId": "d8f2409b966c9f1f5716aeccf328617d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da tarefa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Tarefa removida com sucesso"
+                    },
+                    "404": {
+                        "description": "Tarefa não encontrada"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Todo": {
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID da tarefa",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "description": "Título da tarefa",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Descrição da tarefa",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "completed": {
+                        "description": "Status de conclusão da tarefa",
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Tarefas",
+            "description": "Tarefas"
+        }
+    ]
+}
