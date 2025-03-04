@@ -213,15 +213,27 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
                 </Typography>
               }
               secondary={todo.description && !expanded && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
-                  <DescriptionIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                  <Typography variant="body2" color="text.secondary" sx={{ 
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 1,
-                    WebkitBoxOrient: 'vertical',
-                  }}>
+                <Box 
+                  sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 0.5, 
+                    mt: 0.5,
+                    pr: 12,
+                  }}
+                >
+                  <DescriptionIcon sx={{ fontSize: 16, color: 'text.secondary', flexShrink: 0 }} />
+                  <Typography 
+                    variant="body2" 
+                    color="text.secondary" 
+                    sx={{ 
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 1,
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                  >
                     {todo.description}
                   </Typography>
                 </Box>
