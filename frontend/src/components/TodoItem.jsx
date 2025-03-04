@@ -249,10 +249,24 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
             pr: 2, 
             pb: 2,
             pt: 1,
-            bgcolor: theme.palette.grey[50],
+            bgcolor: theme.palette.mode === 'light' 
+              ? theme.palette.grey[50]
+              : theme.palette.background.paper,
+            borderTop: 1,
+            borderBottom: 1,
+            borderColor: theme.palette.mode === 'light'
+              ? theme.palette.grey[200]
+              : theme.palette.grey[800],
           }}
         >
-          <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-line' }}>
+          <Typography 
+            variant="body2" 
+            color="text.secondary" 
+            sx={{ 
+              whiteSpace: 'pre-line',
+              opacity: theme.palette.mode === 'light' ? 0.8 : 0.7,
+            }}
+          >
             {todo.description}
           </Typography>
         </Box>
